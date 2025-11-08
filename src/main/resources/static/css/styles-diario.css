@@ -1,0 +1,343 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+            color: #6E615B;
+            background: linear-gradient(0deg,rgba(250, 222, 226, 1) 0%, rgba(254, 242, 244, 1) 50%);
+            min-height: 100vh; /* Garante que o body ocupe pelo menos 100% da altura da tela */
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(106, 11, 35, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left h1 {
+            font-size: 2em;
+            font-family: "Abril Fatface", serif;
+            font-weight: 50;
+            font-style: normal;
+            color: #DA9EA6;
+            margin-bottom: 2px;
+        }
+
+        .header-left p {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #6A0B23;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #DA9EA6;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #6E615B;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            outline: none;
+            border-color: #F9E5E8;
+            background-color: #FEF2F4;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            border-radius: 15px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state p {
+            color: #6E615B;
+            margin-bottom: 25px;
+            font-size: 1.05em;
+        }
+
+        /* Post Card */
+        .post {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .post:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(106, 11, 35, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .post-title {
+            font-size: 2em;
+            color: #6A0B23;
+            font-family: "Unna", serif;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .post-date {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 7px 9px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            color: #999;
+        }
+
+        .icon-btn:hover {
+            background-color: #F9E5E8;
+            color: #6A0B23;
+        }
+
+        .post-content {
+            color: #6E615B;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .post-image {
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 10px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 2.5em;
+            font-family: "Unna", serif;
+            font-weight: 700;
+            color: #6A0B23;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #F9D0D6;
+            color: #6A0B23;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95em;
+            color: #6E615B;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+            color: #6E615B;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #F9E5E8;
+            background-color: #FEF2F4;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+
+        .image-input-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-cancel:hover {
+            background-color: #FEF2F4;
+            border-color: #F9D0D6;
+        }
+
+        .btn-submit {
+            background-color: #6A0B23;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #DA9EA6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .post {
+                padding: 20px;
+            }
+
+            .modal {
+                padding: 20px;
+            }
+        }
