@@ -9,8 +9,8 @@
             font-weight: 300;
             font-style: normal;
             color: #6E615B;
-            background: linear-gradient(0deg,rgba(250, 222, 226, 1) 0%, rgba(254, 242, 244, 1) 50%);
-            min-height: 100vh; /* Garante que o body ocupe pelo menos 100% da altura da tela */
+            background: linear-gradient(0deg,rgba(249, 229, 232, 1) 40%, rgba(255, 250, 247, 1) 80%);
+            min-height: 100vh;
         }
 
         /* Header */

@@ -8,7 +8,8 @@
             font-family: "Poppins", sans-serif;
             font-weight: 300;
             font-style: normal;
-            background-color: #FFFAF7; /* Ajuste a cor de fundo aqui */
+            background: #F9E5E8;
+            background: linear-gradient(0deg,rgba(249, 229, 232, 1) 50%, rgba(255, 250, 247, 1) 80%);
             color: #6E615B;
             line-height: 1.5;
         }
@@ -207,6 +208,7 @@
             height: 40px;
             fill: none;
             margin-bottom: 10px;
+            fill: #F9D0D6;
         }
 
         .quote-text {
@@ -220,7 +222,7 @@
 
         /* Footer */
         .footer {
-            background-color: #ffffff;
+            background-color: #ffffff69;
             text-align: center;
             padding: 40px 20px;
             font-size: 0.95em;

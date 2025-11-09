@@ -10,7 +10,7 @@
             font-style: normal;
             color: #6E615B;
             background: #F9E5E8;
-            background: linear-gradient(20deg,rgba(249, 229, 232, 1) 20%, rgba(255, 250, 247, 1) 90%);
+            background: linear-gradient(0deg,rgba(249, 229, 232, 1) 40%, rgba(255, 250, 247, 1) 80%);
             min-height: 100vh;
             display: flex;
             align-items: center;
