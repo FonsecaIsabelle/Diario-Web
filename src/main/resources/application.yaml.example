@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/diarioweb_db
-    username: postgres
-    password: 12345
+    url: jdbc:postgresql://SEU_HOST/SEU_DATABASE
+    username: SEU_USUARIO
+    password: SUA_SENHA
     driver-class-name: org.postgresql.Driver
 
   sql:
