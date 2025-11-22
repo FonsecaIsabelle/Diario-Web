@@ -17,7 +17,7 @@
     <header class="header">
         <div class="header-left">
             <h1>Dear Diary</h1>
-            <p>Olá, Isabelle Fonseca!</p>
+            <p th:text="'Olá, ' + ${usuario.nome} + '!'">Olá, Isabelle Fonseca!</p>
         </div>
         <div class="header-right">
             <button class="btn btn-primary" onclick="openModal()">
@@ -38,69 +38,173 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Empty State (mostrar quando não há posts) -->
-        <div class="empty-state" id="emptyState">
-            <p>Você ainda não tem nenhum post. Comece a escrever suas memórias!</p>
-            <button class="btn btn-primary" onclick="openModal()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                Criar Primeiro Post
-            </button>
-        </div>
+    <!-- Layout com Sidebar -->
+    <div class="layout">
+        <!-- Sidebar de Filtros -->
+        <aside class="sidebar">
+            <h2 class="sidebar-title">Filtros</h2>
+            
+            <!-- Filtro de Data -->
+            <div class="filter-section">
+                <label class="filter-label">Data</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="date" id="filtroData" class="filter-input" 
+                        th:value="${dataSelecionada}" 
+                        style="flex: 1;">
+                    <button class="btn-filtrar" onclick="aplicarFiltroData()" title="Filtrar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+                <button class="btn-clear" onclick="limparFiltroData()" th:if="${dataSelecionada != null}">
+                    Limpar filtro
+                </button>
+            </div>
 
-        <!-- Timeline de Posts (inicialmente escondida) -->
-        <div id="postsTimeline" style="display: none;">
-            <!-- Exemplo de Post -->
-            <article class="post">
-                <div class="post-header">
-                    <div>
-                        <h2 class="post-title">teste</h2>
-                        <p class="post-date">08 de novembro de 2025 às 10:22</p>
-                    </div>
-                    <div class="post-actions">
-                        <button class="icon-btn" title="Editar">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            <!-- Filtro de Pasta -->
+            <div class="filter-section">
+                <div class="filter-header">
+                    <label class="filter-label">Pastas</label>
+                    <button class="btn-icon" onclick="openPastaModal()" title="Nova Pasta">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="pasta-list">
+                    <button class="pasta-item" onclick="filtrarPorPasta(null)" 
+                            th:classappend="${pastaIdSelecionada == null} ? 'active' : ''">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <span>Todas as pastas</span>
+                    </button>
+                    
+                    <div th:each="pasta : ${pastas}" class="pasta-item-wrapper">
+                        <button class="pasta-item"
+                                th:classappend="${pastaIdSelecionada == pasta.id} ? 'active' : ''"
+                                th:onclick="'filtrarPorPasta(' + ${pasta.id} + ')'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                             </svg>
+                            <span th:text="${pasta.nome}">Nome da Pasta</span>
                         </button>
-                        <button class="icon-btn" title="Deletar">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <button class="btn-delete-pasta" 
+                                th:onclick="'deletarPasta(' + ${pasta.id} + ')'"
+                                title="Deletar pasta">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div class="post-content">
-                    <p>teste</p>
-                </div>
-            </article>
-        </div>
-    </main>
+                
+                <p class="empty-message" th:if="${#lists.isEmpty(pastas)}">
+                    Nenhuma pasta criada ainda
+                </p>
+            </div>
+        </aside>
 
-    <!-- Modal Novo Post -->
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Empty State -->
+            <div class="empty-state" th:if="${#lists.isEmpty(posts)}">
+                <p>Você ainda não tem nenhum post. Comece a escrever suas memórias!</p>
+                <button class="btn btn-primary" onclick="openModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Criar Primeiro Post
+                </button>
+            </div>
+
+            <!-- Timeline de Posts -->
+            <div th:if="${!#lists.isEmpty(posts)}">
+                <article class="post" th:each="post : ${posts}">
+                    <div class="post-header">
+                        <div>
+                            <h2 class="post-title" th:text="${post.titulo}">Título</h2>
+                            <p class="post-date" th:text="${#temporals.format(post.dataCriacao, 'dd ''de'' MMMM ''de'' yyyy ''às'' HH:mm')}">Data</p>
+                            <p class="post-pasta" th:if="${post.pastaId != null}">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span th:each="pasta : ${pastas}" th:if="${pasta.id == post.pastaId}" th:text="${pasta.nome}"></span>
+                            </p>
+                        </div>
+                        <div class="post-actions">
+                            <button class="icon-btn" title="Editar" th:onclick="'editarPost(' + ${post.id} + ')'">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" title="Deletar" th:onclick="'deletarPost(' + ${post.id} + ')'">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <img th:if="${post.imagemUrl != null and !post.imagemUrl.isEmpty()}" 
+                             th:src="${post.imagemUrl}" 
+                             alt="Imagem do post"
+                             class="post-image">
+                        
+                        <p th:text="${post.conteudo}">Conteúdo</p>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo/Editar Post -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">Novo Post</h2>
+                <h2 class="modal-title" id="modalTitle">Novo Post</h2>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
-            <form id="postForm" onsubmit="handleSubmit(event)">
+            <form th:action="${editando != null && editando} ? @{/atualizarPost} : @{/criarPost}" method="post" id="postForm">
+                <input th:if="${post != null}" type="hidden" name="id" th:value="${post.id}">
+                
                 <div class="form-group">
-                    <label for="postTitle">Título</label>
-                    <input type="text" id="postTitle" placeholder="Dê um título ao seu post..." required>
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" placeholder="Dê um título ao seu post..." 
+                           th:value="${post != null} ? ${post.titulo} : ''" required>
                 </div>
+                
                 <div class="form-group">
-                    <label for="postContent">Conteúdo</label>
-                    <textarea id="postContent" placeholder="Escreva suas memórias aqui..." required></textarea>
+                    <label for="pastaId">Pasta</label>
+                    <select id="pastaId" name="pastaId" class="form-select">
+                        <option value="">Sem pasta</option>
+                        <option th:each="pasta : ${pastas}" 
+                                th:value="${pasta.id}" 
+                                th:text="${pasta.nome}"
+                                th:selected="${post != null && post.pastaId == pasta.id}">
+                        </option>
+                    </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="postImage" class="image-input-label">
+                    <label for="conteudo">Conteúdo</label>
+                    <textarea id="conteudo" name="conteudo" placeholder="Escreva suas memórias aqui..." 
+                              required th:text="${post != null} ? ${post.conteudo} : ''"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imagemUrl" class="image-input-label">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                             <circle cx="8.5" cy="8.5" r="1.5"></circle>
@@ -108,58 +212,129 @@
                         </svg>
                         Imagem (opcional)
                     </label>
-                    <input type="url" id="postImage" placeholder="Cole a URL de uma imagem...">
+                    <input type="url" id="imagemUrl" name="imagemUrl" placeholder="Cole a URL de uma imagem..."
+                           th:value="${post != null} ? ${post.imagemUrl} : ''">
                 </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-submit">Publicar Post</button>
+                    <button type="submit" class="btn btn-submit" id="submitBtn">Publicar Post</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script>
-        // Abrir Modal
+    <!-- Modal Nova Pasta -->
+    <div class="modal-overlay" id="pastaModalOverlay" onclick="closePastaModalOnOverlay(event)">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2 class="modal-title">Nova Pasta</h2>
+                <button class="close-btn" onclick="closePastaModal()">&times;</button>
+            </div>
+            <form action="/criarPasta" method="post" id="pastaForm">
+                <div class="form-group">
+                    <label for="nomePasta">Nome da Pasta</label>
+                    <input type="text" id="nomePasta" name="nome" placeholder="Ex: Viagem para Paris" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" onclick="closePastaModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-submit">Criar Pasta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const editando = /*[[${editando}]]*/ false;
+        const postParaEditar = /*[[${post}]]*/ null;
+        
+        window.onload = function() {
+            if (editando && postParaEditar) {
+                document.getElementById('modalTitle').textContent = 'Editar Post';
+                document.getElementById('submitBtn').textContent = 'Salvar Alterações';
+                openModal();
+            }
+        };
+        /*]]>*/
+        
+        // Modal Post
         function openModal() {
             document.getElementById('modalOverlay').classList.add('active');
         }
 
-        // Fechar Modal
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
-            document.getElementById('postForm').reset();
+            if (!editando) {
+                document.getElementById('postForm').reset();
+            } else {
+                window.location.href = '/diario';
+            }
         }
 
-        // Fechar modal ao clicar fora
         function closeModalOnOverlay(event) {
             if (event.target.id === 'modalOverlay') {
                 closeModal();
             }
         }
 
-        // Handle Submit
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const imageUrl = document.getElementById('postImage').value;
-            
-            // Aqui você adicionaria a lógica para salvar o post
-            console.log('Novo post:', { title, content, imageUrl });
-            
-            // Esconder empty state e mostrar timeline
-            document.getElementById('emptyState').style.display = 'none';
-            document.getElementById('postsTimeline').style.display = 'block';
-            
-            closeModal();
-            alert('Post publicado com sucesso!');
+        // Modal Pasta
+        function openPastaModal() {
+            document.getElementById('pastaModalOverlay').classList.add('active');
         }
 
-        // Logout
+        function closePastaModal() {
+            document.getElementById('pastaModalOverlay').classList.remove('active');
+            document.getElementById('pastaForm').reset();
+        }
+
+        function closePastaModalOnOverlay(event) {
+            if (event.target.id === 'pastaModalOverlay') {
+                closePastaModal();
+            }
+        }
+
+        // Filtros
+        function filtrarPorPasta(pastaId) {
+            if (pastaId) {
+                window.location.href = '/diario?pastaId=' + pastaId;
+            } else {
+                window.location.href = '/diario';
+            }
+        }
+
+        function aplicarFiltroData() {
+            const data = document.getElementById('filtroData').value;
+            if (data) {
+                window.location.href = '/diario?data=' + data;
+            }
+        }
+
+        function limparFiltroData() {
+            window.location.href = '/diario';
+        }
+
+        // CRUD
+        function editarPost(id) {
+            window.location.href = '/editarPost/' + id;
+        }
+
+        function deletarPost(id) {
+            if (confirm('Tem certeza que deseja deletar este post?')) {
+                window.location.href = '/deletarPost/' + id;
+            }
+        }
+
+        function deletarPasta(id) {
+            if (confirm('Tem certeza que deseja deletar esta pasta? Os posts não serão deletados.')) {
+                window.location.href = '/deletarPasta/' + id;
+            }
+        }
+
         function logout() {
             if (confirm('Deseja realmente sair?')) {
-                window.location.href = 'login.html';
+                window.location.href = '/logout';
             }
         }
     </script>
