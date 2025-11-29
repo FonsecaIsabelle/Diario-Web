@@ -111,7 +111,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .feature-card {
@@ -200,23 +200,21 @@
         /* Seção de citação */
         .quote-section {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 30px;
         }
 
-        .quote-icon {
-            width: 40px;
-            height: 40px;
-            fill: none;
-            margin-bottom: 10px;
-            fill: #F9D0D6;
+        .quote-img {
+            max-width: 28%;
+            margin-bottom: 12px;
         }
 
         .quote-text {
             font-family: "Parisienne", cursive;
+            color: #6A0B23;
             font-weight: 400;
             font-style: normal;
-            font-size: 1.45em;
-            max-width: 600px;
+            font-size: 1.5em;
+            max-width: 700px;
             margin: 0 auto;
         }
 

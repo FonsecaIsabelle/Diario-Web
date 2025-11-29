@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Dear Diary</title>
+    <title>Cadastro - Diário Web</title>
     
+    <!--Favicon-->
+    <link rel="icon" type="image/png" th:href="@{/static/assets/icons8-story-book-32.png}">
+
     <!--Fontes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +16,9 @@
     <link rel="stylesheet" th:href="@{/css/styles-cadastro.css}">
 </head>
 <body>
+    <div class="header-top">
+        <a href="index.html">Diário Web</a>
+    </div>
     <div class="register-container">
         <div class="logo-container">
             <div class="logo-circle">
@@ -62,6 +68,10 @@
         <div class="login-link">
             Já tem uma conta? <a th:href="@{/login}">Faça login</a>
         </div>
+    </div>
+
+    <div class="diary-img">
+        <img class="quote-img" src="@{/static/assets/diary-girl3.png}">
     </div>
 
     <div class="help-button" title="Ajuda"></div>
