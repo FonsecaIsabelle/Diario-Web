@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Diário Web</title>
+    <link rel="stylesheet" href="/css/validacao-forms.css">
     
     <!--Favicon-->
     <link rel="icon" type="image/png" th:href="@{/assets/icons8-story-book-32.png}">
@@ -43,23 +44,28 @@
 
     <form action="/cadastrar" method="post">
         <div class="form-group">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="nome" placeholder="Seu nome" required>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+            <span id="nomeError" class="error-message"></span>
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+            <span id="emailError" class="error-message"></span>
         </div>
 
         <div class="form-group">
-            <label for="password">Senha</label>
-            <input type="password" id="password" name="senha" placeholder="••••••••" required>
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+            <span id="senhaError" class="error-message"></span>
+            <small class="senha-dica">Mínimo 6 caracteres, incluindo maiúscula, minúscula e número</small>
         </div>
 
         <div class="form-group">
-            <label for="confirm-password">Confirmar Senha</label>
-            <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
+            <label for="confirmarSenha">Confirmar Senha</label>
+            <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="••••••••" required>
+            <span id="confirmarSenhaError" class="error-message"></span>
         </div>
 
         <button type="submit" class="btn-submit">Criar Conta</button>
@@ -71,9 +77,11 @@
     </div>
 
     <div class="diary-img">
-        <img class="quote-img" src="@{/assets/diary-girl3.png}">
+        <img class="quote-img" th:src="@{/assets/diary-girl3.png}">
     </div>
 
     <div class="help-button" title="Ajuda"></div>
+
+    <script th:src="@{/js/validacao-cadastro.js}"></script>
 </body>
 </html>
