@@ -6,7 +6,7 @@
     <title>Login - Dear Diary</title>
     
     <!--Favicon-->
-    <link rel="icon" type="image/png" th:href="@{/static/assets/icons8-story-book-32.png}">
+    <link rel="icon" type="image/png" th:href="@{/assets/icons8-story-book-32.png}">
 
     <!--Fontes-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="header-top">
-        <a href="index.html">Diário Web</a>
+        <a th:href="@{/}">Diário Web</a>
     </div>
     <div class="login-container">
         <div class="logo-container">
@@ -63,7 +63,7 @@
     </div>
 
     <div class="diary-img">
-        <img class="quote-img" src="@{/static/assets/diary-girl3.png}">
+        <img class="quote-img" src="@{/assets/diary-girl3.png}">
     </div>
 
     <div class="help-button" title="Ajuda"></div>
